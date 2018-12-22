@@ -2,7 +2,8 @@
   Possibilities:
     Vectors with color to represent pressure and length to represent velocity.
     Streamlines
-    Particles (with streaks)
+    Particles (with streaks and color)
+  Test uniform stream before starting on potential flow.
   Ensure 60fps
 2) Create a structure for different types of simulation (potential flow, numeric simulation). Should be as simple as pairing a simulation method with a compatible visualization method.
 3) Visualize potential flow. Shouldn't require any real time simulation, but will need to be animated nevertheless.
@@ -10,13 +11,17 @@
     Still need a way of finding the equipotential contours.
   Rankine's half-oval
 4) Study numeric methods for Euler's equation.
-5) Implement Euler's equation with real time simulation.
-  Control method: Place a fire (heat source) in the scene.
-    p = ρRT (assume ρ constant?)
-  Walls would be interesting.
+5) Implement Euler's equation with real time simulation (GPU compute?).
+  Run at different time step and time scale
+
+  Control methods
+    Initial conditions
+    Place a fire (heat source) in the scene
+      p = ρRT (assume ρ constant?) ⟹ p↑ for T↑ ⟹ sufficient to have a region of increased p.
+  Walls
 6) Find a way to "incidentally" display text.
   Let random spawns have the same seed, and keep track of which number a particle in the desired region at a given time has. Change the color of this particle at spawn time.
   Method
     Create a bit representation of image text, with bits being on/off representing text/no text.
-    For every particle at a time t, check if its position is in an enabled bit or not. Scaling is relative.
+    For every particle at a time t, check if its relative position is in an enabled bit or not.
 7) Look into Navier-Stokes equation.
