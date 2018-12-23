@@ -1,6 +1,6 @@
 1) Create classes for visualization.
   Possibilities:
-    Vectors with color to represent pressure and length to represent velocity.
+    Vectors with length, color and direction to represent velocity, pressure and direction of flow respectively.
     Streamlines
     Particles (with streaks and color)
   Test uniform stream before starting on potential flow.
@@ -25,3 +25,9 @@
     Create a bit representation of image text, with bits being on/off representing text/no text.
     For every particle at a time t, check if its relative position is in an enabled bit or not.
 7) Look into Navier-Stokes equation.
+
+
+
+Code sketch
+  Main contains main loop. Calls master simulation functions and render functions. Manages configuration.
+  Graphics takes in state and config, and renders the state in the desired fashion. Might need to be OO.
