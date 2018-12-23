@@ -2,7 +2,7 @@
 
 class FluidParticle{
     public:
-        sf::Vector2f position;
-        sf::Vector2f velocity;
+        sf::Vector2f pos;
+        sf::Vector2f vel;
         float weight;
 };
