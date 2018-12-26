@@ -16,7 +16,7 @@ class PotentialFlow: public Simulator{
 };
 
 void PotentialFlow::simulate(float timestep){
-    // Apply a state change to every particle
+    // Apply a state change to every particle.
     for(FluidParticle particle : fieldstate.particles){
         
     }
