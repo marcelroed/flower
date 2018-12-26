@@ -1,4 +1,4 @@
-#include "PotentialFlow.h"
+#include "PotentialFlow.hpp"
 
 void PotentialFlow::simulate(float timestep){
     // Apply a state change to every particle.

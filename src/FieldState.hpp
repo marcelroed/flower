@@ -1,5 +1,5 @@
 #include <vector>
-#include "FluidParticle.cpp"
+#include "FluidParticle.hpp"
 
 class FieldState{
     public:

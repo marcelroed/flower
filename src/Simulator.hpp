@@ -1,4 +1,4 @@
-#include "FieldState.cpp"
+#include "FieldState.hpp"
 class Simulator{
     public:
         virtual void simulate(float timestep) = 0;

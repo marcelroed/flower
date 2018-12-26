@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Renderer.cpp"
+//#include "Renderer.cpp"
 
 
 int main() {
@@ -11,8 +11,8 @@ int main() {
     shape.setRadius(200);
     shape.setFillColor(sf::Color(100, 250, 50));
     shape.setPosition(sf::Vector2f(50,50));
-    FieldState fs;
-    Renderer renderer(window, 0.3f, fs);
+    //FieldState fs;
+    //Renderer renderer(window, 0.3f, fs);
 
     // Run while window is open
     while (window.isOpen())

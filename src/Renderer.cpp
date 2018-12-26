@@ -1,7 +1,7 @@
 #include <SFML/GpuPreference.hpp>
 #include <SFML/Graphics.hpp>
-#include "FieldState.cpp"
-#include "FluidParticle.cpp"
+#include "FieldState.hpp"
+#include "FluidParticle.hpp"
 
 using namespace std;
 
