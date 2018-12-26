@@ -1,4 +1,7 @@
 .vscode*
+.idea*
+cmake-build-debug-mingw*
+CMakeLists.txt
 
 # Prerequisites
 *.d

@@ -1,7 +1,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-//#include "Renderer.cpp"
-
+#include "FieldState.hpp"
+#include "Renderer.hpp"
+#include <vector>
+#include <SFML/System/Vector2.hpp>
 
 int main() {
     std::cout << "Hello, World!\n"; 
@@ -11,9 +13,15 @@ int main() {
     shape.setRadius(200);
     shape.setFillColor(sf::Color(100, 250, 50));
     shape.setPosition(sf::Vector2f(50,50));
-    //FieldState fs;
-    //Renderer renderer(window, 0.3f, fs);
-
+    FieldState fs;
+    Renderer renderer(window, 0.3f, fs);
+    sf::Clock deltaClock;
+    sf::Time dt;
+    std::vector<FluidParticle> particles;
+    for (int i = 0; i < 20; i++){
+        FluidParticle p(sf::Vector2f(100.0 + i*20.0, 200.0), sf::Vector2f(.0, .0));
+        particles.push_back(p);
+    }
     // Run while window is open
     while (window.isOpen())
     {
@@ -25,13 +33,18 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        dt = deltaClock.restart();
+
+        // Physics
+
 
         // Clear the window with black color
         window.clear(sf::Color::Black);
 
-        // Draw everything here...
+        // Graphics
         // Window.draw(...);
-        window.draw(shape);
+        //window.draw(shape);
+        renderer.render(deltaClock.getElapsedTime());
         // End the current frame
         window.display();
     }

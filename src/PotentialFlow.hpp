@@ -1,4 +1,5 @@
-#include "Simulator.cpp"
+#pragma once
+#include "Simulator.hpp"
 #include <vector>
 #include <functional>
 #include <SFML/System/Vector2.hpp>

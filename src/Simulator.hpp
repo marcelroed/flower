@@ -1,3 +1,4 @@
+#pragma once
 #include "FieldState.hpp"
 class Simulator{
     public:
