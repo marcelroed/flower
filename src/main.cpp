@@ -6,21 +6,24 @@
 #include <SFML/System/Vector2.hpp>
 
 int main() {
-    std::cout << "Hello, World!\n"; 
+    std::cout << "Hello, World!\n";
+    // Init window
 	sf::RenderWindow window({1024, 800}, "Test");
 	window.setFramerateLimit(60);
+
     sf::CircleShape shape(50);
     shape.setRadius(200);
     shape.setFillColor(sf::Color(100, 250, 50));
     shape.setPosition(sf::Vector2f(50,50));
+    // Initialize state
     FieldState fs;
-    Renderer renderer(window, 0.3f, fs);
     sf::Clock deltaClock;
     sf::Time dt;
-    std::vector<FluidParticle> particles;
+    Renderer renderer(window, 0.3f, &fs);
+    // Testing the fluid state
     for (int i = 0; i < 20; i++){
-        FluidParticle p(sf::Vector2f(100.0 + i*20.0, 200.0), sf::Vector2f(.0, .0));
-        particles.push_back(p);
+        FluidParticle p(sf::Vector2f(100.0 + i*40.0, 200.0), sf::Vector2f(.0, .0));
+        fs.particles.push_back(p);
     }
     // Run while window is open
     while (window.isOpen())
@@ -38,10 +41,10 @@ int main() {
         // Physics
 
 
+        // Graphics
         // Clear the window with black color
         window.clear(sf::Color::Black);
 
-        // Graphics
         // Window.draw(...);
         //window.draw(shape);
         renderer.render(deltaClock.getElapsedTime());
