@@ -7,4 +7,3 @@ class FluidParticle{
         float weight = 0;
         FluidParticle(sf::Vector2f pos, sf::Vector2f vel);
 };
-

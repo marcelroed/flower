@@ -4,5 +4,5 @@
 class FieldState{
     public:
         std::vector<FluidParticle> particles;
-        
+        FieldState();
 };

@@ -5,7 +5,3 @@ class Simulator{
         Simulator(FieldState& fs);
         FieldState& fieldstate;
 };
-
-Simulator::Simulator(FieldState& fs): fieldstate(fs){
-    
-}
