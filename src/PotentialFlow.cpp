@@ -9,11 +9,11 @@ void PotentialFlow::simulate(sf::Time dt){
 }
 // Needs to use the derivative and timescale. Might also need a variable step size.
 void PotentialFlow::moveParticle(FluidParticle& particle, sf::Time dt){
-    particle.pos += sf::Vector2f(100.0f, 0.0f)*dt.asSeconds();
-}
-
-float numericalDerivative(Potential p, sf::Vector2f pos, sf::Vector2f dir, sf::Time dt){
-
+    sf::Vector2f vel(0.0f, 0.0f);
+    for(const Potential& potential : potentials){
+        vel += gradient(potential, particle.pos, 0.01f);
+    }
+    particle.pos += vel;
 }
 
 PotentialFlow::PotentialFlow(FieldState& fs): Simulator(fs){
@@ -22,4 +22,11 @@ PotentialFlow::PotentialFlow(FieldState& fs): Simulator(fs){
 void PotentialFlow::addPotential(Potential p){
     potentials.push_back(p);
 }
+
+Potential PotentialFlow::uniform(float strength, sf::Vector2f direction){
+
+}
+Potential source(float strength, sf::Vector2f position);
+Potential whirlpool(float strength, sf::Vector2f position);
+Potential doublet(float strength, sf::Vector2f position);
 
