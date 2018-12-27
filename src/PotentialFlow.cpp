@@ -1,17 +1,18 @@
 #include "PotentialFlow.hpp"
+#include <iostream>
 
-void PotentialFlow::simulate(float timestep){
+void PotentialFlow::simulate(sf::Time dt){
     // Apply a state change to every particle.
-    for(FluidParticle particle : fieldstate.particles){
-        
+    for(FluidParticle& particle : fieldState.particles){
+        moveParticle(particle, dt);
     }
 }
 // Needs to use the derivative and timescale. Might also need a variable step size.
-void PotentialFlow::moveParticle(FluidParticle& particle, float delta){
-    //particle.pos += sf::Vector2f(2.0f, 3.0f);
+void PotentialFlow::moveParticle(FluidParticle& particle, sf::Time dt){
+    particle.pos += sf::Vector2f(100.0f, 0.0f)*dt.asSeconds();
 }
 
-float numericalDerivative(Potential p, sf::Vector2f pos, sf::Vector2f dir, float delta){
+float numericalDerivative(Potential p, sf::Vector2f pos, sf::Vector2f dir, sf::Time dt){
 
 }
 

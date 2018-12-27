@@ -5,12 +5,12 @@
 
 class Renderer{
     public:
-        Renderer(sf::RenderWindow& win, float stepsize, FieldState* stateobj);
+        Renderer(sf::RenderWindow& win, float stepsize, FieldState& fieldState);
         void render(sf::Time delta_t);
     private:
         sf::RenderWindow& window;
         float stepsize;
         int epochs = 1;
-        FieldState* state;
-        FieldState* prevState;
+        FieldState& fieldState;
+        FieldState prevState;
 };

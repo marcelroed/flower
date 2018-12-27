@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include "FieldState.hpp"
 #include "Renderer.hpp"
+#include "Simulator.hpp"
+#include "PotentialFlow.hpp"
 #include <vector>
 #include <SFML/System/Vector2.hpp>
 
@@ -19,7 +21,8 @@ int main() {
     FieldState fs;
     sf::Clock deltaClock;
     sf::Time dt;
-    Renderer renderer(window, 0.3f, &fs);
+    Renderer renderer(window, 0.3f, fs);
+    PotentialFlow simulator(fs);
     // Testing the fluid state
     for (int i = 0; i < 20; i++){
         FluidParticle p(sf::Vector2f(100.0 + i*40.0, 200.0), sf::Vector2f(.0, .0));
@@ -39,7 +42,7 @@ int main() {
         dt = deltaClock.restart();
 
         // Physics
-
+        simulator.simulate(dt);
 
         // Graphics
         // Clear the window with black color
