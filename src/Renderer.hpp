@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/GpuPreference.hpp>
 #include <SFML/Graphics.hpp>
-#include "FieldState.hpp"
+#include "ParticleFieldState.hpp"
 
 class Renderer{
     public:

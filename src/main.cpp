@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "FieldState.hpp"
+#include "ParticleFieldState.hpp"
 #include "Renderer.hpp"
 #include "Simulator.hpp"
 #include "PotentialFlow.hpp"
@@ -8,11 +8,12 @@
 #include <SFML/System/Vector2.hpp>
 #include <math.h>
 
-int main() {
-    std::cout << "Hello, World!\n";
+void potentialFlow(){
     // Init window
-	sf::RenderWindow window({1000, 1000}, "Test");
-	window.setFramerateLimit(60);
+    const int width = 1000;
+    const int height = 1000;
+    sf::RenderWindow window({1000, 1000}, "Flower");
+    window.setFramerateLimit(60);
 
     sf::CircleShape shape(50);
     shape.setRadius(200);
@@ -25,12 +26,19 @@ int main() {
     Renderer renderer(window, 0.3f, fs);
     PotentialFlow simulator(fs);
     //simulator.addPotential([](sf::Vector2f pos){return 3*pos.x;});
-    simulator.addPotential([](sf::Vector2f pos){return 1000*log(sqrt(pow(pos.x, 2.0f) + pow(pos.y, 2.0f)));});
+    simulator.addPotential(uniform(90.0f, sf::Vector2f(1.0f, 0.0f)));
+    simulator.addPotential(source(6000.0f, sf::Vector2f(width/2, height/2)));
+    //simulator.addPotential(source(-3000.0f, sf::Vector2f(width/2 + 300.0f, height/2)));
+    simulator.addParticlePointSource(.3f, 10, sf::Vector2f(width/2, height/2));
+    simulator.addParticleLineSource(.3f, 40, sf::Vector2f(-5,0), sf::Vector2f(-5, height));
     // Testing the fluid state
-    for (int i = 0; i < 20; i++){
-        FluidParticle p(sf::Vector2f(100.0 + i*40.0, 200.0), sf::Vector2f(.0, .0));
-        fs.particles.push_back(p);
-    }
+    /*for (int i = 0; i < 20; i++){
+        for (int j = 0; j < 100; j++){
+            FluidParticle p(sf::Vector2f(-50.0*j, height/20*i), sf::Vector2f(.0, .0));
+            fs.particles.push_back(p);
+        }
+    }*/
+    printf("Particle count: %i\n", fs.particles.size());
     // Run while window is open
     while (window.isOpen())
     {
@@ -57,4 +65,16 @@ int main() {
         // End the current frame
         window.display();
     }
+}
+
+
+void navierStokes(){
+
+}
+
+
+int main() {
+    potentialFlow();
+    navierStokes();
+    return 0;
 }

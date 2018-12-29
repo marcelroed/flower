@@ -6,16 +6,39 @@
 
 using Potential = std::function<float(sf::Vector2f)>;
 
+struct particlePointSource{
+    sf::Vector2f origin;
+    float period;
+    int particlesPerTrigger;
+    float untilNext = 0.0f;
+};
+
+struct particleLineSource{
+    sf::Vector2f from;
+    sf::Vector2f to;
+    float period;
+    int particlesPerTrigger;
+    float untilNext = 0.0f;
+};
+
 class PotentialFlow: public Simulator{
     public:
         void simulate(sf::Time dt);
         void addPotential(Potential p);
-        Potential uniform(float strength, sf::Vector2f direction);
-        Potential source(float strength, sf::Vector2f position);
-        Potential whirlpool(float strength, sf::Vector2f position);
-        Potential doublet(float strength, sf::Vector2f position);
         PotentialFlow(FieldState& fs);
+        void addParticlePointSource(float period, int count, sf::Vector2f point);
+        // Right hand rule
+        void addParticleLineSource(float period, int count, sf::Vector2f from, sf::Vector2f to);
     private:
         std::vector<Potential> potentials;
+        std::vector<int> toDelete;
+        std::vector<particlePointSource> pointSources;
+        std::vector<particleLineSource> lineSources;
         void moveParticle(FluidParticle& particle, sf::Time);
+        float lifeTime = 20.0f;
 };
+
+Potential uniform(const float intensity, const sf::Vector2f& direction);
+Potential source(const float intensity, const sf::Vector2f& position);
+Potential whirl(const float intensity, const sf::Vector2f& position);
+Potential doublet(const float intensity, const sf::Vector2f& position);

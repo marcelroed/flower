@@ -1,5 +1,5 @@
 #pragma once
-#include "FieldState.hpp"
+#include "ParticleFieldState.hpp"
 #include <SFML/System/Time.hpp>
 #include <functional>
 class Simulator{
@@ -8,5 +8,5 @@ class Simulator{
         Simulator(FieldState& fs);
         FieldState& fieldState;
     protected:
-        sf::Vector2f gradient(std::function<float(sf::Vector2f)> p, sf::Vector2f pos, float stepsize);
+        sf::Vector2f gradient(std::function<float(sf::Vector2f)> p, sf::Vector2f pos, float stepSize);
 };
