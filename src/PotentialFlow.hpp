@@ -1,5 +1,5 @@
 #pragma once
-#include "Simulator.hpp"
+#include "ParticleSimulator.hpp"
 #include <vector>
 #include <functional>
 #include <SFML/System/Vector2.hpp>
@@ -26,7 +26,7 @@ struct particlePointDrain{
     float radius;
 };
 
-class PotentialFlow: public Simulator{
+class PotentialFlow: public ParticleSimulator{
     public:
         void simulate(sf::Time dt);
         void addPotential(Potential p);
@@ -34,6 +34,8 @@ class PotentialFlow: public Simulator{
         void addParticlePointSource(float period, int count, sf::Vector2f point);
         void addParticlePointDrain(float radius, sf::Vector2f point);
         void addParticleLineSource(float period, int count, sf::Vector2f from, sf::Vector2f to);
+        void clearAll();
+        void setLifeTime(float time);
 
     private:
         std::vector<Potential> potentials;

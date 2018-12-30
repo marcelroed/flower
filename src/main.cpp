@@ -2,19 +2,59 @@
 #include <SFML/Graphics.hpp>
 #include "ParticleFieldState.hpp"
 #include "ParticleRenderer.hpp"
-#include "Simulator.hpp"
+#include "ParticleSimulator.hpp"
 #include "PotentialFlow.hpp"
 #include <vector>
 #include <SFML/System/Vector2.hpp>
 #include <math.h>
 
+
+enum Mode{
+    RANKINES_OVAL, OUTWARD_WHIRL
+};
+
+int mode = RANKINES_OVAL;
+const int width = 1000;
+const int height = 1000;
+
+
+
+
+void initializeSimulationMode(int newMode, PotentialFlow& simulator){
+    mode = newMode;
+    switch(mode){
+        case RANKINES_OVAL:
+            simulator.addPotential(uniform(90.0f, sf::Vector2f(1.0f, 0.0f)));
+            simulator.addPotential(source(6000.0f, sf::Vector2f(width/2, height/2)));
+            simulator.addPotential(source(-6000.0f, sf::Vector2f(width/2 + 300.0f, height/2)));
+            simulator.addParticlePointSource(.3f, 11, sf::Vector2f(width/2, height/2));
+            simulator.addParticlePointDrain(20.0f, sf::Vector2f(width/2 + 300.0f, height/2));
+            simulator.addParticleLineSource(.3f, 41, sf::Vector2f(-5,0), sf::Vector2f(-5, height));
+            break;
+        case OUTWARD_WHIRL:
+            simulator.addPotential(source(12000.0, sf::Vector2f(width/2, height/2)));
+            simulator.addParticlePointSource(.1f, 5, sf::Vector2f(width/2, height/2));
+            simulator.addPotential(whirl(24000.0, sf::Vector2f(width/2, height/2)));
+            break;
+        default:
+            break;
+    }
+}
+
+void toggleSimulationMode(PotentialFlow& simulator){
+    simulator.clearAll();
+    if (mode != Mode::OUTWARD_WHIRL){
+        mode++;
+    }else{
+        mode = Mode::RANKINES_OVAL;
+    }
+    initializeSimulationMode(mode, simulator);
+}
+
 void potentialFlow(){
     // Init window
-    const int width = 1000;
-    const int height = 1000;
     sf::RenderWindow window({1000, 1000}, "Flower");
-    window.setFramerateLimit(60);
-
+    window.setFramerateLimit(120);
     sf::CircleShape shape(50);
     shape.setRadius(200);
     shape.setFillColor(sf::Color(100, 250, 50));
@@ -25,14 +65,7 @@ void potentialFlow(){
     sf::Time dt;
     ParticleRenderer renderer(window, 0.3f, fs);
     PotentialFlow simulator(fs);
-    //simulator.addPotential([](sf::Vector2f pos){return 3*pos.x;});
-    simulator.addPotential(uniform(90.0f, sf::Vector2f(1.0f, 0.0f)));
-    simulator.addPotential(source(6000.0f, sf::Vector2f(width/2, height/2)));
-    simulator.addPotential(source(-6000.0f, sf::Vector2f(width/2 + 300.0f, height/2)));
-    //simulator.addPotential(whirl(5000.0, sf::Vector2f(width/2 - 100.0, height/2)));
-    simulator.addParticlePointSource(.3f, 11, sf::Vector2f(width/2, height/2));
-    simulator.addParticlePointDrain(20.0f, sf::Vector2f(width/2 + 300.0f, height/2));
-    simulator.addParticleLineSource(.3f, 41, sf::Vector2f(-5,0), sf::Vector2f(-5, height));
+    initializeSimulationMode(RANKINES_OVAL, simulator);
     // Testing the fluid state
     /*for (int i = 0; i < 20; i++){
         for (int j = 0; j < 100; j++){
@@ -48,9 +81,19 @@ void potentialFlow(){
         sf::Event event;
         while (window.pollEvent(event))
         {
-            // "Close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-                window.close();
+            switch(event.type){
+                case sf::Event::Closed:
+                    // "Close requested" event: we close the window
+                    window.close();
+                    break;
+                case sf::Event::KeyPressed:
+                    if (event.key.code == sf::Keyboard::T){
+                        toggleSimulationMode(simulator);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         dt = deltaClock.restart();
 

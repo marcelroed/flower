@@ -69,13 +69,13 @@ void PotentialFlow::simulate(sf::Time dt){
 void PotentialFlow::moveParticle(FluidParticle& particle, sf::Time dt){
     sf::Vector2f vel(0.0f, 0.0f);
     for(const Potential& potential : potentials){
-        vel += gradient(potential, particle.pos, 0.01f);
+        vel += gradient(potential, particle.pos, 0.001f);
     }
     particle.pos += vel*dt.asSeconds();
 
 }
 
-PotentialFlow::PotentialFlow(ParticleFieldState& fs): Simulator(fs){
+PotentialFlow::PotentialFlow(ParticleFieldState& fs): ParticleSimulator(fs){
 }
 
 void PotentialFlow::addPotential(Potential p){
@@ -101,9 +101,22 @@ bool PotentialFlow::isByDrain(FluidParticle& p){
     }
 }
 
+
+void PotentialFlow::clearAll() {
+    potentials.clear();
+    pointDrains.clear();
+    pointSources.clear();
+    fieldState.particles.clear();
+    lineSources.clear();
+}
+
 void PotentialFlow::addParticlePointDrain(float radius, sf::Vector2f point) {
     particlePointDrain d{point, radius};
     pointDrains.push_back(d);
+}
+
+void  PotentialFlow::setLifeTime(float time) {
+    lifeTime = time;
 }
 
 Potential source(const float strength, const sf::Vector2f& position){
