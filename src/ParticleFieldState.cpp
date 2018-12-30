@@ -1,3 +1,3 @@
 #include "ParticleFieldState.hpp"
 
-FieldState::FieldState() {}
+ParticleFieldState::ParticleFieldState() {}

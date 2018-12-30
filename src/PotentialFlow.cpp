@@ -58,7 +58,7 @@ void PotentialFlow::simulate(sf::Time dt){
     int index = 0;
     for(FluidParticle& particle : fieldState.particles){
         particle.age += dt.asSeconds();
-        if (particle.age > lifeTime){
+        if (particle.age > lifeTime || isByDrain(particle)){
             toDelete.push_back(index);
         }
         moveParticle(particle, dt);
@@ -75,7 +75,7 @@ void PotentialFlow::moveParticle(FluidParticle& particle, sf::Time dt){
 
 }
 
-PotentialFlow::PotentialFlow(FieldState& fs): Simulator(fs){
+PotentialFlow::PotentialFlow(ParticleFieldState& fs): Simulator(fs){
 }
 
 void PotentialFlow::addPotential(Potential p){
@@ -91,6 +91,19 @@ void PotentialFlow::addParticlePointSource(float period, int count, sf::Vector2f
 void PotentialFlow::addParticleLineSource(float period, int count, sf::Vector2f from, sf::Vector2f to) {
     particleLineSource s{from, to, period, count};
     lineSources.push_back(s);
+}
+
+bool PotentialFlow::isByDrain(FluidParticle& p){
+    for(particlePointDrain& ppd : pointDrains){
+        if (radius(ppd.origin, p.pos) < ppd.radius){
+            return true;
+        }
+    }
+}
+
+void PotentialFlow::addParticlePointDrain(float radius, sf::Vector2f point) {
+    particlePointDrain d{point, radius};
+    pointDrains.push_back(d);
 }
 
 Potential source(const float strength, const sf::Vector2f& position){

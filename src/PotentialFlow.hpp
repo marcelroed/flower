@@ -21,20 +21,28 @@ struct particleLineSource{
     float untilNext = 0.0f;
 };
 
+struct particlePointDrain{
+    sf::Vector2f origin;
+    float radius;
+};
+
 class PotentialFlow: public Simulator{
     public:
         void simulate(sf::Time dt);
         void addPotential(Potential p);
-        PotentialFlow(FieldState& fs);
+        PotentialFlow(ParticleFieldState& fs);
         void addParticlePointSource(float period, int count, sf::Vector2f point);
-        // Right hand rule
+        void addParticlePointDrain(float radius, sf::Vector2f point);
         void addParticleLineSource(float period, int count, sf::Vector2f from, sf::Vector2f to);
+
     private:
         std::vector<Potential> potentials;
         std::vector<int> toDelete;
         std::vector<particlePointSource> pointSources;
         std::vector<particleLineSource> lineSources;
+        std::vector<particlePointDrain> pointDrains;
         void moveParticle(FluidParticle& particle, sf::Time);
+        bool isByDrain(FluidParticle& p);
         float lifeTime = 20.0f;
 };
 

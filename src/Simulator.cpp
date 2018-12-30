@@ -1,6 +1,6 @@
 #include "Simulator.hpp"
 
-Simulator::Simulator(FieldState& fs): fieldState(fs){
+Simulator::Simulator(ParticleFieldState& fs): fieldState(fs){
     
 }
 

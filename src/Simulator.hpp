@@ -5,8 +5,8 @@
 class Simulator{
     public:
         virtual void simulate(sf::Time) = 0;
-        Simulator(FieldState& fs);
-        FieldState& fieldState;
+        Simulator(ParticleFieldState& fs);
+        ParticleFieldState& fieldState;
     protected:
         sf::Vector2f gradient(std::function<float(sf::Vector2f)> p, sf::Vector2f pos, float stepSize);
 };

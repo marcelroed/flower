@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "ParticleFieldState.hpp"
-#include "Renderer.hpp"
+#include "ParticleRenderer.hpp"
 #include "Simulator.hpp"
 #include "PotentialFlow.hpp"
 #include <vector>
@@ -20,17 +20,19 @@ void potentialFlow(){
     shape.setFillColor(sf::Color(100, 250, 50));
     shape.setPosition(sf::Vector2f(50,50));
     // Initialize state
-    FieldState fs;
+    ParticleFieldState fs;
     sf::Clock deltaClock;
     sf::Time dt;
-    Renderer renderer(window, 0.3f, fs);
+    ParticleRenderer renderer(window, 0.3f, fs);
     PotentialFlow simulator(fs);
     //simulator.addPotential([](sf::Vector2f pos){return 3*pos.x;});
     simulator.addPotential(uniform(90.0f, sf::Vector2f(1.0f, 0.0f)));
     simulator.addPotential(source(6000.0f, sf::Vector2f(width/2, height/2)));
-    //simulator.addPotential(source(-3000.0f, sf::Vector2f(width/2 + 300.0f, height/2)));
-    simulator.addParticlePointSource(.3f, 10, sf::Vector2f(width/2, height/2));
-    simulator.addParticleLineSource(.3f, 40, sf::Vector2f(-5,0), sf::Vector2f(-5, height));
+    simulator.addPotential(source(-6000.0f, sf::Vector2f(width/2 + 300.0f, height/2)));
+    //simulator.addPotential(whirl(5000.0, sf::Vector2f(width/2 - 100.0, height/2)));
+    simulator.addParticlePointSource(.3f, 11, sf::Vector2f(width/2, height/2));
+    simulator.addParticlePointDrain(20.0f, sf::Vector2f(width/2 + 300.0f, height/2));
+    simulator.addParticleLineSource(.3f, 41, sf::Vector2f(-5,0), sf::Vector2f(-5, height));
     // Testing the fluid state
     /*for (int i = 0; i < 20; i++){
         for (int j = 0; j < 100; j++){

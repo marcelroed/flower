@@ -3,14 +3,14 @@
 #include <SFML/Graphics.hpp>
 #include "ParticleFieldState.hpp"
 
-class Renderer{
+class ParticleRenderer{
     public:
-        Renderer(sf::RenderWindow& win, float stepsize, FieldState& fieldState);
+        ParticleRenderer(sf::RenderWindow& win, float stepsize, ParticleFieldState& fieldState);
         void render(sf::Time delta_t);
     private:
         sf::RenderWindow& window;
         float stepsize;
         int epochs = 1;
-        FieldState& fieldState;
-        FieldState prevState;
+        ParticleFieldState& fieldState;
+        ParticleFieldState prevState;
 };

@@ -2,8 +2,8 @@
 #include <vector>
 #include "FluidParticle.hpp"
 
-class FieldState{
+class ParticleFieldState{
     public:
         std::vector<FluidParticle> particles;
-        FieldState();
+        ParticleFieldState();
 };
