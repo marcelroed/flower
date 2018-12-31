@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/GpuPreference.hpp>
 #include <SFML/Graphics.hpp>
 #include "ParticleFieldState.hpp"
 

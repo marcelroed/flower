@@ -18,3 +18,7 @@ float angle(sf::Vector2f vec, sf::Vector2f from){
 sf::Vector2f polar(float radius, float angle){
     return sf::Vector2f(radius*cos(angle), radius*sin(angle));
 }
+
+float modulus(sf::Vector2f vec){
+    return atan2(vec.y, vec.x);
+}
