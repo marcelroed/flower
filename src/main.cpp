@@ -12,7 +12,7 @@
 
 
 enum Mode{
-    RANKINES_OVAL, OUTWARD_WHIRL, WALL, CIRCLE, SPECIAL
+    RANKINES_OVAL, OUTWARD_WHIRL, CIRCLE, MAGNUS, SPECIAL
 };
 
 int mode = RANKINES_OVAL;
@@ -37,32 +37,21 @@ void initializeSimulationMode(int newMode, PotentialFlow& simulator, ShapeRender
         }
         case OUTWARD_WHIRL:
             simulator.addPotential(source(12000.0f, sf::Vector2f(width/2, height/2)));
-            simulator.addParticlePointSource(.1f, 5, sf::Vector2f(width/2, height/2));
+            simulator.addParticlePointSource(.1f, 10, sf::Vector2f(width/2, height/2));
             simulator.addPotential(whirl(24000.0f, sf::Vector2f(width/2, height/2)));
             break;
-        case WALL: {
-            float U = 1.0f;
-            float a = 200.0f;
-            sf::Vector2f center(width/2, 0);
-            Potential p = [U, a, center](sf::Vector2f pos){
-                sf::Vector2f o(
-                        pow(radius(pos, center), 2.0f),
-                        );
-                return U*pow(radius(pos, center), 2.0f)*cos(angle(pos, center)*M_PI/a);
-            };
-            simulator.addPotential(p);
-            simulator.addParticleLineSource(0.3f, 20, center, center+polar(100.0f, a/2));
-            //simulator.addParticlePointSource(0.3f, 20, center);
+        case MAGNUS: {
+
             break;
         }
         case CIRCLE: {
-            float radius = 100.0f;
+            float radius = 150.0f;
             sf::CircleShape* circleP = new sf::CircleShape(radius);
             circleP->setFillColor(sf::Color(255,0,0));
             circleP->setPosition(sf::Vector2f(width/2 - radius, height/2 - radius));
             shapeRenderer.addShape(circleP);
             simulator.addPotential(uniform(90.0, sf::Vector2f(1.0f, 0.0f)));
-            simulator.addPotential(doublet(1200000.0, sf::Vector2f(width / 2, height / 2)));
+            simulator.addPotential(doublet(2400000.0, sf::Vector2f(width / 2, height / 2)));
             //simulator.addParticlePointSource(0.3f, 10, sf::Vector2f(width/2, height/2));
             simulator.addParticleLineSource(0.3f, 41, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, height));
             //simulator.addPotential(whirl(12000.0, sf::Vector2f(width/2, height/2)));
@@ -145,7 +134,7 @@ void potentialFlow(){
 
         // Window.draw(...);
         //window.draw(shape);
-        shapeRenderer.render();
+        shapeRenderer.render(dt);
         particleRenderer.render(deltaClock.getElapsedTime());
         // End the current frame
         window.display();

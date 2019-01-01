@@ -14,8 +14,12 @@ void ShapeRenderer::clearAll(){
     shapes.clear();
 }
 
-void ShapeRenderer::render() {
+void ShapeRenderer::render(sf::Time dt) {
+    for(job& job1 : jobs){
+        //job1();
+    }
     for (sf::Shape* shape : shapes){
         window.draw(*shape);
     }
 }
+
