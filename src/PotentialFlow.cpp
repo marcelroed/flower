@@ -2,15 +2,9 @@
 #include <iostream>
 #include <math.h>
 #include "helpers.hpp"
+#include <algorithm>
 
 void PotentialFlow::simulate(sf::Time dt){
-    // Delete old and off-screen particles
-    for (std::vector<int>::reverse_iterator i = toDelete.rbegin();
-         i != toDelete.rend(); ++i ) {
-        fieldState.particles.erase(fieldState.particles.begin() + *i);
-    }
-    toDelete.clear();
-
     // Spawn new particles from sources
     // Point sources
     for (particlePointSource& pointSource : pointSources){
@@ -26,8 +20,8 @@ void PotentialFlow::simulate(sf::Time dt){
                 double angle = i*angleDiff;
                 sf::Vector2f pos = pointSource.origin + polar(10.0f, angle);
                 //printf("%f, %f\n", pos.x, pos.y);
-                FluidParticle newParticle(pos, sf::Vector2f(0,0));
-                fieldState.particles.push_back(newParticle);
+                FluidParticle p = newParticle(pos);
+                fieldState.particles.push_back(p);
                 //printf("Particle count: %i\n", fieldState.particles.size());
             }
         }
@@ -47,8 +41,8 @@ void PotentialFlow::simulate(sf::Time dt){
                 float fraction = (float)i/(float)lineSource.particlesPerTrigger;
                 sf::Vector2f pos = lineSource.from + fraction*dist;
                 //printf("%f, %f\n", pos.x, pos.y);
-                FluidParticle newParticle(pos, sf::Vector2f(0,0));
-                fieldState.particles.push_back(newParticle);
+                FluidParticle p = newParticle(pos);
+                fieldState.particles.push_back(p);
                 //printf("Particle count: %i\n", fieldState.particles.size());
             }
         }
@@ -64,7 +58,25 @@ void PotentialFlow::simulate(sf::Time dt){
         moveParticle(particle, dt);
         index++;
     }
+    // Delete old and off-screen particles
+    std::sort(toDelete.rbegin(), toDelete.rend());
+    for (int index : toDelete){
+        fieldState.particles.erase(fieldState.particles.begin() + index);
+    }
+    toDelete.clear();
 }
+
+FluidParticle PotentialFlow::newParticle(sf::Vector2f position){
+    FluidParticle newParticle(position, sf::Vector2f(0,0));
+    newParticle.id = particlesSpawned;
+    if (specialParticles.size() && specialParticles.back() == particlesSpawned){
+        newParticle.color = sf::Color::Red;
+        specialParticles.pop_back();
+    }
+    particlesSpawned++;
+    return newParticle;
+}
+
 // Needs to use the derivative and timescale. Might also need a variable step size.
 void PotentialFlow::moveParticle(FluidParticle& particle, sf::Time dt){
     sf::Vector2f vel(0.0f, 0.0f);
@@ -108,6 +120,8 @@ void PotentialFlow::clearAll() {
     pointSources.clear();
     fieldState.particles.clear();
     lineSources.clear();
+    particlesSpawned = 0;
+    specialParticles.clear();
 }
 
 void PotentialFlow::addParticlePointDrain(float radius, sf::Vector2f point) {

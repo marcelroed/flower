@@ -36,6 +36,8 @@ class PotentialFlow: public ParticleSimulator{
         void addParticleLineSource(float period, int count, sf::Vector2f from, sf::Vector2f to);
         void clearAll();
         void setLifeTime(float time);
+        std::vector<int> specialParticles;
+        FluidParticle newParticle(sf::Vector2f position);
 
     private:
         std::vector<Potential> potentials;
@@ -46,6 +48,7 @@ class PotentialFlow: public ParticleSimulator{
         void moveParticle(FluidParticle& particle, sf::Time);
         bool isByDrain(FluidParticle& p);
         float lifeTime = 20.0f;
+        int particlesSpawned = 0;
 };
 
 Potential uniform(const float intensity, const sf::Vector2f& direction);

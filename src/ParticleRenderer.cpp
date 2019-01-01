@@ -10,7 +10,7 @@ ParticleRenderer::ParticleRenderer(sf::RenderWindow& win, float stepSize, Partic
 void ParticleRenderer::render(sf::Time dt){
     for (FluidParticle& particle : fieldState.particles){
         sf::CircleShape circle(7);
-        circle.setFillColor(sf::Color::White);
+        circle.setFillColor(particle.color);
         circle.setPosition(particle.pos);
         window.draw(circle);
     }
