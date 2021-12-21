@@ -1,3 +1,3 @@
 #include "ParticleFieldState.hpp"
 
-ParticleFieldState::ParticleFieldState() {}
+ParticleFieldState::ParticleFieldState() = default;
