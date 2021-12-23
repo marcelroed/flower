@@ -6,7 +6,7 @@
 #include "PotentialFlow.hpp"
 #include <vector>
 #include <SFML/System/Vector2.hpp>
-#include <math.h>
+#include <cmath>
 #include "ShapeRenderer.hpp"
 #include "helpers.hpp"
 #include <algorithm>
@@ -117,7 +117,7 @@ void potentialFlow(){
     while (window.isOpen())
     {
         // Check all the window's events that were triggered since the last iteration of the loop
-        sf::Event event;
+        sf::Event event{};
         while (window.pollEvent(event))
         {
             switch(event.type){

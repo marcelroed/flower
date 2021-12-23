@@ -1,8 +1,8 @@
 #include "PotentialFlow.hpp"
-#include <iostream>
-#include <math.h>
+#include <cmath>
 #include "helpers.hpp"
 #include <algorithm>
+#include "FluidParticle.hpp"
 
 void PotentialFlow::simulate(sf::Time dt){
     // Spawn new particles from sources
@@ -15,9 +15,9 @@ void PotentialFlow::simulate(sf::Time dt){
             // Reset time
             pointSource.untilNext = pointSource.period;
             // Spawn the right number of particles around point
-            double angleDiff = 2*M_PI/pointSource.particlesPerTrigger;
+            float angleDiff = 2*M_PI/pointSource.particlesPerTrigger;
             for(int i = 0; i < pointSource.particlesPerTrigger; i++){
-                double angle = i*angleDiff;
+                float angle = i*angleDiff;
                 sf::Vector2f pos = pointSource.origin + polar(10.0f, angle);
                 //printf("%f, %f\n", pos.x, pos.y);
                 FluidParticle p = newParticle(pos);
@@ -60,8 +60,8 @@ void PotentialFlow::simulate(sf::Time dt){
     }
     // Delete old and off-screen particles
     std::sort(toDelete.rbegin(), toDelete.rend());
-    for (int index : toDelete){
-        fieldState.particles.erase(fieldState.particles.begin() + index);
+    for (int i : toDelete){
+        fieldState.particles.erase(fieldState.particles.begin() + i);
     }
     toDelete.clear();
 }
@@ -69,7 +69,7 @@ void PotentialFlow::simulate(sf::Time dt){
 FluidParticle PotentialFlow::newParticle(sf::Vector2f position){
     FluidParticle newParticle(position, sf::Vector2f(0,0));
     newParticle.id = particlesSpawned;
-    if (specialParticles.size() && specialParticles.back() == particlesSpawned){
+    if (!specialParticles.empty() && specialParticles.back() == particlesSpawned){
         newParticle.color = sf::Color::Red;
         specialParticles.pop_back();
     }
@@ -90,7 +90,7 @@ void PotentialFlow::moveParticle(FluidParticle& particle, sf::Time dt){
 PotentialFlow::PotentialFlow(ParticleFieldState& fs): ParticleSimulator(fs){
 }
 
-void PotentialFlow::addPotential(Potential p){
+void PotentialFlow::addPotential(const Potential& p){
     potentials.push_back(p);
 }
 
@@ -106,11 +106,9 @@ void PotentialFlow::addParticleLineSource(float period, int count, sf::Vector2f 
 }
 
 bool PotentialFlow::isByDrain(FluidParticle& p){
-    for(particlePointDrain& ppd : pointDrains){
-        if (radius(ppd.origin, p.pos) < ppd.radius){
-            return true;
-        }
-    }
+    return std::any_of(pointDrains.begin(), pointDrains.end(), [&p](const auto& ppd){
+        return radius(ppd.origin, p.pos) < ppd.radius;
+    });
 }
 
 
@@ -134,13 +132,13 @@ void  PotentialFlow::setLifeTime(float time) {
 }
 
 Potential source(const float strength, const sf::Vector2f& position){
-    return [strength, position](sf::Vector2f curPos){return strength*log(radius(curPos, position));};
+    return [strength, position](sf::Vector2f curPos){return strength*std::log(radius(curPos, position));};
 }
 Potential whirl(const float strength, const sf::Vector2f& position){
     return [strength, position](sf::Vector2f curPos){return strength*angle(curPos, position);};
 }
 Potential doublet(const float strength, const sf::Vector2f& position){
-    return [strength, position](sf::Vector2f curPos){return strength*cos(angle(curPos, position))/radius(curPos, position);};
+    return [strength, position](sf::Vector2f curPos){return strength*std::cos(angle(curPos, position))/radius(curPos, position);};
 }
 
 Potential uniform(const float strength, const sf::Vector2f& direction){

@@ -1,13 +1,14 @@
 // May not be needed
 #include <SFML/System/Vector2.hpp>
 #include <functional>
+#include <utility>
 class Potential{
     public:
-        Potential(std::function<float(sf::Vector2f)> pot);
+        explicit Potential(std::function<float(sf::Vector2f)> pot);
     private:
         std::function<float(sf::Vector2f)> value;
 };
 
-Potential::Potential(std::function<float(sf::Vector2f)> pot) : value(pot){
+Potential::Potential(std::function<float(sf::Vector2f)> pot) : value(std::move(pot)){
     
 }

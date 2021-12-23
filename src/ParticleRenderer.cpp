@@ -1,6 +1,5 @@
 #include "ParticleRenderer.hpp"
 #include "ParticleFieldState.hpp"
-#include <iostream>
 
 
 ParticleRenderer::ParticleRenderer(sf::RenderWindow& win, float stepSize, ParticleFieldState& stateObj): window(win), stepsize(stepSize), fieldState(stateObj){

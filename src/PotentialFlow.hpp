@@ -29,7 +29,7 @@ struct particlePointDrain{
 class PotentialFlow: public ParticleSimulator{
     public:
         void simulate(sf::Time dt);
-        void addPotential(Potential p);
+        void addPotential(const Potential& p);
         PotentialFlow(ParticleFieldState& fs);
         void addParticlePointSource(float period, int count, sf::Vector2f point);
         void addParticlePointDrain(float radius, sf::Vector2f point);
