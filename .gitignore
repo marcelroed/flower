@@ -2,7 +2,7 @@
 .idea*
 Assets*
 cmake-build-debug-mingw*
-CMakeLists.txt
+# CMakeLists.txt
 
 # Prerequisites
 *.d
