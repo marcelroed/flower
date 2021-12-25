@@ -9,8 +9,8 @@ using job = std::function<void(ShapeRenderer, sf::Time)>;
 
 class ShapeRenderer {
     public:
-        void render(sf::Time dt);
-        ShapeRenderer(sf::RenderWindow& win);
+        void render([[maybe_unused]] sf::Time dt);
+        explicit ShapeRenderer(sf::RenderWindow& win);
         void addShape(sf::Shape* shape);
         void clearAll();
         void addJob(job);
