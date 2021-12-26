@@ -14,7 +14,7 @@ void ShapeRenderer::clearAll(){
     shapes.clear();
 }
 
-void ShapeRenderer::render(sf::Time dt) {
+void ShapeRenderer::render([[maybe_unused]] sf::Time dt) {
     for(job& job1 : jobs){
         //job1();
     }
