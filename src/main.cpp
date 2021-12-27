@@ -91,7 +91,7 @@ void potentialFlow(){
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     // Init window
-    sf::RenderWindow window({1000, 1000}, "Flower", sf::Style::Default, settings);
+    sf::RenderWindow window({width, height}, "Flower", sf::Style::Default, settings);
     window.setFramerateLimit(120);
     sf::CircleShape shape(50);
     shape.setRadius(200);
